@@ -28,42 +28,45 @@
 // 고유 번호 1: 600회 재생
 // 따라서 pop 장르의 [4, 1]번 노래를 먼저, classic 장르의 [3, 0]번 노래를 그다음에 수록합니다.
 
-const genres = ["classic", "pop", "classic", "classic", "pop"];
-const plays = [500, 600, 150, 800, 2500];
+const genres = ["classic", "pop", "classic", "classic", "pop", "abc"];
+const plays = [500, 600, 150, 800, 2500, 3800];
 
 function solution(genres, plays) {
-  // const obj = genres.map((value, index) => {
-  //   return { genres: value, index: index, plays: plays[index] };
-  // });
-  // console.log(obj);
-  //장르 종류 판별
-  const set = Array.from(new Set(genres));
-  console.log(set);
-  let count = 0;
-  let countArr = [];
-  let arr = [];
-  //장르별 재생 합계
-  for (let i = 0; i < set.length; i++) {
-    for (let j = 0; j < genres.length; j++) {
-      if (genres[j] === set[i]) {
-        count += plays[j];
-        console.log(plays[j]);
-        arr.push(plays[j]);
-      }
+  let result = [];
+  let lists = genres.map((genres, index) => {
+    return {
+      index,
+      genres,
+      plays: plays[index],
+    };
+  });
+  // console.log(lists);
+
+  let genrePlayCnt = [];
+  lists.forEach((list) => {
+    let thisGenre = genrePlayCnt.find((value) => value.genres === list.genres);
+    if (!thisGenre) {
+      genrePlayCnt.push({
+        genres: list.genres,
+        play: list.plays,
+      });
+    } else {
+      thisGenre.play += list.plays;
     }
-    console.log(arr);
-    console.log(count);
-    countArr.push(count);
-    console.log(countArr);
-    count = 0;
-  }
-  //재생 1위 장르 인덱스
-  let maxIdx1 = countArr.indexOf(Math.max(...countArr));
-  console.log(maxIdx1);
-  countArr.splice(maxIdx1, 1);
-  //재생 2위 장르 인덱스
-  let maxIdx2 = countArr.indexOf(Math.max(...countArr));
-  console.log(maxIdx2);
+  });
+  genrePlayCnt.sort((a, b) => b.play - a.play);
+  // console.log(genrePlayCnt);
+  genrePlayCnt.forEach((value) => {
+    let thisGenreSongs = lists.filter((list) => list.genres === value.genres);
+    thisGenreSongs.sort((a, b) => b.plays - a.plays);
+    // console.log(thisGenreSongs);
+    result.push(thisGenreSongs[0].index);
+    if (thisGenreSongs.length > 1) {
+      result.push(thisGenreSongs[1].index);
+    }
+  });
+  // console.log(result);
+  return result;
 }
 
 solution(genres, plays);
