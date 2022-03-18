@@ -32,7 +32,6 @@ function solution(progresses, speeds) {
   let answer = [0];
   let count = 0;
 
-  // while (answer.reduce((a, b) => a + b) !== progresses.length) {
   for (let i = 0; i < progresses.length; i++) {
     if (progresses[i] >= 100) {
       count++;
@@ -40,16 +39,15 @@ function solution(progresses, speeds) {
       for (let j = 0; j < progresses.length; j++) {
         progresses[j] += speeds[j];
       }
-      answer.shift();
-      answer.push(count);
+      if (count !== 0) {
+        answer.push(count);
+      }
       count = 0;
       i--;
     }
   }
-  // }
-  console.log(progresses);
-  console.log(answer);
-  console.log(answer.reduce((a, b) => a + b));
+  answer.shift();
+  answer.push(count);
   return answer;
 }
 
