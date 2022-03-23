@@ -17,30 +17,12 @@
 const numbers = [3, 30, 34, 5, 9, 340, 92, 300, 1, 920];
 
 function solution(numbers) {
-  let result = "";
-  let number = numbers
-    .map((value) => value.toString().split(""))
-    .sort()
-    .reverse();
-  // .sort((a, b) => a.length - b.length);
-  console.log(number);
-
-  for (let i = 0; i < number.length - 1; i++) {
-    if (
-      number[i].length > number[i + 1].length &&
-      number[i][number[i].length - 1] < number[i + 1][0] &&
-      number[i].slice(0, number[i].length - 1).toString() ===
-        number[i + 1].toString()
-    ) {
-      [number[i], number[i + 1]] = [number[i + 1], number[i]];
-      i--;
-    }
-  }
-
-  number.forEach((value) => (result += value.join("")));
-  console.log(number);
+  let result = numbers
+    .map((number) => number.toString())
+    .sort((a, b) => b + a - (a + b))
+    .join("");
   console.log(result);
-  return result;
+  return result.replace(/^0+/, "0");
 }
 
 solution(numbers);
