@@ -17,7 +17,7 @@
 const citations = [6, 1, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8];
 
 function solution(citations) {
-  let result = [];
+  let result;
   citations.sort((a, b) => a - b);
   for (let i = 0; i <= citations.length; i++) {
     for (let j = 0; j < citations.length; j++) {
@@ -26,6 +26,7 @@ function solution(citations) {
       }
     }
   }
+  console.log(result);
   return result;
 }
 
