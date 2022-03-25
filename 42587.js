@@ -29,25 +29,21 @@
 
 const priorities = [1, 1, 9, 1, 1, 1];
 const location = 0;
-
 function solution(priorities, location) {
-  let arr1 = priorities.slice();
-  let arr2 = [];
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== Math.max(...arr1)) {
-      arr1.push(arr1[i]);
-      arr1.shift(arr1[i]);
-      // console.log(i);
+  let cnt = 0;
+  const mapped = priorities.map((value, index) => {
+    if (index === location) return [value, true];
+    return [value, false];
+  });
+  while (mapped.length > 0) {
+    const cur = mapped.shift();
+    if (mapped.some((value) => value[0] > cur[0])) {
+      mapped.push(cur);
     } else {
-      arr2.push(arr1[i]);
-      arr1.shift(arr1[i]);
+      cnt++;
+      if (cur[1]) return cnt;
+      console.log(cnt);
     }
-    i--;
-    // console.log("result", arr1);
-    // console.log("arr", arr2);
   }
-  console.log(arr2.indexOf(priorities[location]) + 1);
-  return arr2.indexOf(priorities[location] + 1);
 }
-
 solution(priorities, location);
